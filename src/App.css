@@ -3,11 +3,15 @@
 }
 .user-input{
   height: 30px;
+  width: 250px;
+  padding: 10px 10px;
   margin-top: 20px;
   border: 1px solid black;
   border-radius: 20px;
 }
 .search-btn{
+  height: 50px;
+  width: 100px;
   margin-left: 10px;
   border-radius: 20px;
   padding: 5px 15px;

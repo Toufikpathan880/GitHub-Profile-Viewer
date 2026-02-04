@@ -1,34 +1,43 @@
 import { useState } from "react";
+import "./App.css";
 
 function App() {
   const [username, setUsername] = useState("");
+  const [user, setUser] = useState(null);
 
-  const handleSearch = () => {
-    alert(`Username entered: ${username}`);
+  const searchUser = () => {
+    fetch(`https://api.github.com/users/${username}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setUser(data);
+      });
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-      <h1 className="text-3xl font-bold mb-6">
-        GitHub Profile Viewer
-      </h1>
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <h1>GitHub Profile Viewer</h1>
 
-      <div className="flex gap-3">
-        <input
-          type="text"
-          placeholder="Enter GitHub username"
-          className="border px-4 py-2 rounded w-64"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+      <input
+        className="user-input"
+        type="text"
+        placeholder="Enter GitHub username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
 
-        <button
-          onClick={handleSearch}
-          className="bg-black text-white px-4 py-2 rounded"
-        >
-          Search
-        </button>
-      </div>
+      <button className="search-btn" onClick={searchUser}>Search</button>
+
+      {user && (
+        <div>
+          <img
+            src={user.avatar_url}
+            alt="avatar"
+            width="100"
+          />
+          <h2>{user.name}</h2>
+          <p>Public Repositories: {user.public_repos}</p>
+        </div>
+      )}
     </div>
   );
 }
