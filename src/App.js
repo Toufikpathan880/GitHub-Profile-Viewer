@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import ProfileCart from "./components/profileCart";
 
 function App() {
   const [username, setUsername] = useState("");
@@ -27,17 +28,7 @@ function App() {
 
       <button className="search-btn" onClick={searchUser}>Search</button>
 
-      {user && (
-        <div>
-          <img
-            src={user.avatar_url}
-            alt="avatar"
-            width="100"
-          />
-          <h2>{user.name}</h2>
-          <p>Public Repositories: {user.public_repos}</p>
-        </div>
-      )}
+      {user && <ProfileCart user={user} />}
     </div>
   );
 }
