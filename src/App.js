@@ -21,15 +21,9 @@ function App() {
         }
         return res.json();
       })
-      .then((data) => {
-        setUser(data);
-      })
-      .catch(() => {
-        setError("User not found");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      .then((data) => setUser(data))
+      .catch(() => setError("User not found"))
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -45,13 +39,8 @@ function App() {
 
       <button onClick={searchUser}>Search</button>
 
-      {/* Loading */}
       {loading && <p>Loading...</p>}
-
-      {/* Error */}
       {error && <p style={{ color: "red" }}>{error}</p>}
-
-      {/* Success */}
       {user && <ProfileCard user={user} />}
     </div>
   );
