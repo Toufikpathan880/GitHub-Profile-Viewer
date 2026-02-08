@@ -1,8 +1,9 @@
 import React from 'react'
+import "../App.css";
 
 export default function ProfileCart({ user }) {
   return (
-      <div style={{ marginTop: "20px" }}>
+      <div className='Cart' >
       <img
         src={user.avatar_url}
         alt="avatar"

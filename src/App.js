@@ -1,16 +1,34 @@
 import { useState } from "react";
-import "./App.css";
-import ProfileCart from "./components/profileCart";
+import ProfileCard from "./components/profileCart";
 
 function App() {
   const [username, setUsername] = useState("");
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const searchUser = () => {
+    if (!username) return;
+
+    setLoading(true);
+    setError("");
+    setUser(null);
+
     fetch(`https://api.github.com/users/${username}`)
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("User not found");
+        }
+        return res.json();
+      })
       .then((data) => {
         setUser(data);
+      })
+      .catch(() => {
+        setError("User not found");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -19,16 +37,22 @@ function App() {
       <h1>GitHub Profile Viewer</h1>
 
       <input
-        className="user-input"
         type="text"
         placeholder="Enter GitHub username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
 
-      <button className="search-btn" onClick={searchUser}>Search</button>
+      <button onClick={searchUser}>Search</button>
 
-      {user && <ProfileCart user={user} />}
+      {/* Loading */}
+      {loading && <p>Loading...</p>}
+
+      {/* Error */}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
+      {/* Success */}
+      {user && <ProfileCard user={user} />}
     </div>
   );
 }
